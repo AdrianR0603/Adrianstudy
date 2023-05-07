@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adrian’Game</title>
+    <script>
+
+            var tk;
+            function change_p() {
+                var texts = "这是一个配对游戏，一次翻开一个，如果两个翻开的颜色相同意味成功，就加10分，颜色也有可能改变有时间限制";
+                document.getElementById("p1").innerHTML=texts;
+            }
+
+            function begins() {
+                clearTimeout(tk);
+                document.getElementById("b2").value = "on";
+                document.getElementById("b2").innerHTML = "重新开始";
+                document.getElementById("times").innerHTML = "time:60";
+                document.getElementById("scores").innerHTML = "scores:0";
+
+                for(var i=3; i<13; i++)
+                {
+                    document.getElementById("d"+i).style.backgroundColor = "";
+                }
+
+            }
+            function time_counts() {
+                var time = parseInt(document.getElementById("times").innerHTML.slice(5)) -1;
+                if (time>=0)
+                {
+                    document.getElementById("times").innerHTML = "time:"+time;
+
+                }
+                else
+                {
+                    clearTimeout(tk);
+                    document.getElementById("b2").value = "off";
+                    document.getElementById("b2").innerHTML = "重新开始";
+
+                }
+                tk = setTimeout(time_counts, 1000);
+            }
+            function change_color(obj) {
+                var colors = ["red", "green", "yellow", "blue"];
+                if (obj.style.backgroundColor != "")
+                {
+                    return;
+                }
+                if (document.getElementById("b2").value=="on")
+                {
+                    obj.style.backgroundColor = colors[Math.floor(Math.random()*4)];
+
+                }
+
+            }
+            function sleep(delay) {
+              var start = (new Date()).getTime();
+              while ((new Date()).getTime() - start < delay) {
+                continue;
+              }
+            }
+
+
+
+            function match_color2() {
+                for (var i=3; i<13; i++)
+                {
+                    while ((document.getElementById("d"+i).style.backgroundColor == ""))
+                    {
+                        i++;
+                    }
+                    if (i>12)
+                    {
+                        return;
+                    }
+                    color = document.getElementById("d"+i).style.backgroundColor;
+                    for (var index=3; index<13; index++)
+                    {
+                        if ((color == document.getElementById("d"+index).style.backgroundColor) && (index != i))
+                        {
+                            var scores = parseInt(document.getElementById("scores").innerHTML.slice(7)) + 10;
+                            document.getElementById("scores").innerHTML = "scores:"+scores ;
+                            sleep(100);
+                            document.getElementById("d"+i).style.backgroundColor = "";
+                            document.getElementById("d"+index).style.backgroundColor = "";
+                            break;
+                        }
+                    }
+                }
+
+            }
+
+        </script>
+    <style>
+
+        body{
+            text-align: center;
+        }
+        #d1{
+            height: 503px;
+            width: 510px;
+            border: black solid 1px;
+            margin: auto;
+            padding: 0;
+        }
+        div#d1>div{
+            height: 250px;
+            width: 100px;
+            margin: 0;
+            padding: 0;
+            float: left;
+            border: black solid 1px;
+        }
+    </style>
+</head>
+
+<body>
+  <script>
+         function fun1(){
+             var response=prompt('请您输入您的姓名');
+             alert("Hello,"+response+",welcome to the game!");
+         }
+         fun1();
+     </script>
+    <p id="times">time:60</p>
+    <p id="scores">scores:0</p>
+    <div id="d1">
+        <div id="d3" onmousedown="change_color(this)" onmouseup="match_color2()"></div>
+        <div id="d4" onmousedown="change_color(this)" onmouseup="match_color2()"></div>
+        <div id="d5" onmousedown="change_color(this)" onmouseup="match_color2()"></div>
+        <div id="d6" onmousedown="change_color(this)" onmouseup="match_color2()"></div>
+        <div id="d7" onmousedown="change_color(this)" onmouseup="match_color2()"></div>
+        <div id="d8" onmousedown="change_color(this)" onmouseup="match_color2()"></div>
+        <div id="d9" onmousedown="change_color(this)" onmouseup="match_color2()"></div>
+        <div id="d10" onmousedown="change_color(this)" onmouseup="match_color2()"></div>
+        <div id="d11" onmousedown="change_color(this)" onmouseup="match_color2()"></div>
+        <div id="d12" onmousedown="change_color(this)" onmouseup="match_color2()"></div>
+    </div>
+    <div id="d2">
+        <p id="p1"></p>
+        <button type="button" id="b1" onclick="change_p()">游戏说明</button>
+        <button type="button" id="b2"  onmousedown="begins()" onmouseup="time_counts()" value="off">开始游戏</button>
+    </div>
+    </body>
+</html>
